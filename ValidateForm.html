@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+</head>
+<body>
+
+    <form id="registrationForm" onsubmit="return validateForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone"><br><br>
+
+        <input type="submit" value="Register">
+    </form>
+
+    <p id="errorMessage" style="color: red;"></p>
+
+    <script >
+        function validateForm() {
+    let isValid = true;
+    let errorMessage = '';
+
+    // Clear previous error messages
+    document.getElementById("errorMessage").innerHTML = '';
+
+    // Get the values from the form
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    // Name validation: Required, at least 3 characters, and no numeric values
+    const namePattern = /^[A-Za-z\s]+$/; // Regex to check for only letters and spaces
+    if (name === '') {
+        errorMessage += 'Name is required.<br>';
+        isValid = false;
+    } else if (name.length < 3) {
+        errorMessage += 'Name must be at least 3 characters long.<br>';
+        isValid = false;
+    } else if (!namePattern.test(name)) {
+        errorMessage += 'Name cannot contain numbers or special characters.<br>';
+        isValid = false;
+    }
+
+    // Email validation: Required and basic pattern match
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === '') {
+        errorMessage += 'Email is required.<br>';
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        errorMessage += 'Please enter a valid email address.<br>';
+        isValid = false;
+    }
+
+    // Password validation: Required and must be at least 6 characters
+    if (password === '') {
+        errorMessage += 'Password is required.<br>';
+        isValid = false;
+    } else if (password.length < 6) {
+        errorMessage += 'Password must be at least 6 characters long.<br>';
+        isValid = false;
+    }
+
+    // Phone number validation: Required, only digits, and must be exactly 10 digits
+    const phonePattern = /^[0-9]{10}$/;
+    if (phone === '') {
+        errorMessage += 'Phone number is required.<br>';
+        isValid = false;
+    } else if (!phonePattern.test(phone)) {
+        errorMessage += 'Please enter a valid 10-digit phone number.<br>';
+        isValid = false;
+    }
+
+    // Display error messages if any field is invalid
+    if (!isValid) {
+        document.getElementById("errorMessage").innerHTML = errorMessage;
+    }
+
+    return isValid; // Returns true to submit form, false to prevent submission
+}
+
+    </script>
+
+</body>
+</html>
